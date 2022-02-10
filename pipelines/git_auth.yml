@@ -1,0 +1,85 @@
+#---
+#apiVersion: tekton.dev/v1beta1
+#metadata:
+#  generateName: my-task-run-
+#  namespace: tay-test
+#  labels:
+#    resource: pipeline
+#kind: TaskRun
+#spec:
+#  workspaces:
+#  - name: ssh-directory
+#    secret:
+#      secretName: my-ssh-credentials
+#...
+---
+apiVersion: tekton.dev/v1beta1
+metadata:
+  name: tay-pipeline
+  namespace: tay-test
+  labels:
+    resource: pipeline
+kind: Pipeline
+spec:
+  workspaces:
+  - name: ssh-creds
+  params:
+  - name: git-url
+    type: string
+    description: url of the git repo for the code of deployment
+    default: git@github.com:Mint3kool/quarkus-demo.git
+  - name: git-revision
+    type: string
+    description: revision to be used from repo of the code for deployment
+    default: "master"
+  - name: IMAGE
+    type: string
+    description: image to be build from the code
+    default: tay-image
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: ssh-directory
+      workspace: ssh-creds
+    params:
+    - name: url
+      value: $(params.git-url)
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+    - name: revision
+      value: $(params.git-revision)
+#---
+#apiVersion: tekton.dev/v1beta1
+#metadata:
+#  generateName: pipeline-run-
+#  namespace: tay-test
+#  labels:
+#    resource: pipeline
+#kind: PipelineRun
+#spec:
+#  workspaces:
+#  - name: ssh-creds
+#    secret:
+#      secretName: my-ssh-credentials
+#...
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: my-ssh-credentials
+  namespace: tay-test
+  labels:
+    resource: pipeline
+data:
+  id_rsa: LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFB
+QUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUFNd0FBQUF0emMyZ3RaVwpReU5UVXhP
+UUFBQUNCUkZuTGZ2WHVvak9tRndNUEEyazloZFBMczJmSTRkckpYRFZZaGVQMnNEZ0FBQUppZUVE
+MUpuaEE5ClNRQUFBQXR6YzJndFpXUXlOVFV4T1FBQUFDQlJGbkxmdlh1b2pPbUZ3TVBBMms5aGRQ
+THMyZkk0ZHJKWERWWWhlUDJzRGcKQUFBRUF1N2ovci9ka2ZCa2RFWFh0OUEycThmdk95Tmg2UUdI
+S2ZMNHptMEtteVAxRVdjdCs5ZTZpTTZZWEF3OERhVDJGMAo4dXpaOGpoMnNsY05WaUY0L2F3T0FB
+QUFEblJoZVVCeVpXUm9ZWFF1WTI5dEFRSURCQVVHQnc9PQotLS0tLUVORCBPUEVOU1NIIFBSSVZB
+VEUgS0VZLS0tLS0K
