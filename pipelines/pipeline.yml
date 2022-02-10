@@ -9,6 +9,7 @@ kind: Pipeline
 spec:
   workspaces:
   - name: ssh-creds
+  - name: shared-workspace
   params:
   - name: git-url
     type: string
@@ -17,7 +18,7 @@ spec:
   - name: git-revision
     type: string
     description: revision to be used from repo of the code for deployment
-    default: "master"
+    default: "main"
   - name: IMAGE
     type: string
     description: image to be build from the code
@@ -30,6 +31,8 @@ spec:
     workspaces:
     - name: ssh-directory
       workspace: ssh-creds
+    - name: output
+      workspace: shared-workspace
     params:
     - name: url
       value: $(params.git-url)

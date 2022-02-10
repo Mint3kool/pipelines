@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  annotations:
+    pipeline.openshift.io/started-by: admin
+  labels:
+    resource: pipeline
+    tekton.dev/pipeline: tay-pipeline
+  name: tay-pipeline-b3ebtf
+  namespace: tay-test
+spec:
+  params:
+  - name: git-url
+    value: git@github.com:Mint3kool/quarkus-demo.git
+  - name: git-revision
+    value: master
+  - name: IMAGE
+    value: tay-image
+  pipelineRef:
+    name: tay-pipeline
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+  - name: ssh-creds
+    secret:
+      secretName: my-ssh-credentials
+  - name: shared-workspace
+    persistentVolumeClaim:
+      claimName: pipeline-pv
