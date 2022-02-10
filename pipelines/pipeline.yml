@@ -1,0 +1,41 @@
+---
+apiVersion: tekton.dev/v1beta1
+metadata:
+  name: tay-pipeline
+  namespace: tay-test
+  labels:
+    resource: pipeline
+kind: Pipeline
+spec:
+  workspaces:
+  - name: ssh-creds
+  params:
+  - name: git-url
+    type: string
+    description: url of the git repo for the code of deployment
+    default: git@github.com:Mint3kool/quarkus-demo.git
+  - name: git-revision
+    type: string
+    description: revision to be used from repo of the code for deployment
+    default: "master"
+  - name: IMAGE
+    type: string
+    description: image to be build from the code
+    default: tay-image
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+      kind: ClusterTask
+    workspaces:
+    - name: ssh-directory
+      workspace: ssh-creds
+    params:
+    - name: url
+      value: $(params.git-url)
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+    - name: revision
+      value: $(params.git-revision)
