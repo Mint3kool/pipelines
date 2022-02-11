@@ -19,10 +19,16 @@ spec:
     type: string
     description: revision to be used from repo of the code for deployment
     default: "main"
-  - name: IMAGE
+  - name: image_registry
     type: string
-    description: image to be build from the code
-    default: tay-image
+    description: image registry url
+    default: quay.io/tshen
+  - name: image_name
+    type: string
+    default: quarkus-demo
+  - name: image_version
+    type: string
+    default: latest
   tasks:
   - name: fetch-source
     taskRef:
@@ -42,3 +48,17 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
+  - name: build-image
+    taskRef:
+      name: buildah
+      kind: ClusterTask
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: IMAGE
+      value: $(params.image_registry):$(params.image_version)
+#    - name: DOCKERFILE
+#      value: quarkus-demo/src/main/docker/Dockerfile.legacy-jar
+    runAfter:
+    - fetch-source
