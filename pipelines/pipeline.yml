@@ -65,7 +65,7 @@ spec:
       workspace: shared-workspace
     params:
     - name: IMAGE
-      value: $(params.image_registry):$(params.image_version)
+      value: $(params.image_registry)/$(params.image_name):$(params.image_version)
 #    - name: DOCKERFILE
 #      value: quarkus-demo/src/main/docker/Dockerfile.legacy-jar
     runAfter:

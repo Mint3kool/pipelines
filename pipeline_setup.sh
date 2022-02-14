@@ -24,6 +24,7 @@ fi
 
 oc apply -f operators/pipelines.yml
 oc apply -f storage
+oc apply -f secret
 oc apply -f pipelines
 oc apply -f pipelines/tasks
 
