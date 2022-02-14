@@ -48,6 +48,14 @@ spec:
       value: "true"
     - name: revision
       value: $(params.git-revision)
+  - name: build-code
+    taskRef:
+      name: update-dockerfile
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    runAfter:
+    - fetch-source
   - name: build-image
     taskRef:
       name: buildah
@@ -61,4 +69,4 @@ spec:
 #    - name: DOCKERFILE
 #      value: quarkus-demo/src/main/docker/Dockerfile.legacy-jar
     runAfter:
-    - fetch-source
+    - build-code

@@ -1,0 +1,27 @@
+apiVersion: v1
+items:
+- apiVersion: tekton.dev/v1beta1
+  kind: Task
+  metadata:
+    name: update-dockerfile
+    namespace: tay-test
+  spec:
+    steps:
+    - args:
+      - |-
+        echo building quarkus image
+        cd /workspace/source
+        ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+        ./mvnw package -Dquarkus.package.type=legacy-jar
+        echo -----------------------------------
+      command:
+      - /bin/bash
+      - -c
+      image: registry.access.redhat.com/ubi8/openjdk-11:1.11-2
+      name: ""
+    workspaces:
+    - name: source
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

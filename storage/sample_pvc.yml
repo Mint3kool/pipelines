@@ -1,15 +1,14 @@
 apiVersion: v1
-items:
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: pipeline-pv
-    namespace: tay-test
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 1Gi
-    storageClassName: gp2
-    volumeName: pvc-49d24402-f279-4e59-ba07-3da64194643d
+kind: PersistentVolumeClaim
+metadata:
+  name: pipeline-pvc
+  namespace: tay-test
+  labels:
+    resource: pipeline
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+#  storageClassName: slow

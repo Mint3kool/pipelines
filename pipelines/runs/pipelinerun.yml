@@ -24,4 +24,4 @@ spec:
       secretName: my-ssh-credentials
   - name: shared-workspace
     persistentVolumeClaim:
-      claimName: pipeline-pv
+      claimName: pipeline-pvc
