@@ -22,7 +22,8 @@ else
     oc new-project tay-test
 fi
 
-oc apply -f operators/pipelines.yml
+echo "make sure openshift pipelines operator is installed"
+#oc apply -f operators/pipelines.yml
 oc apply -f storage
 oc apply -f secret
 oc apply -f pipelines

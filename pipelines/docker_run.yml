@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: tay-pipeline-x4wgke-build-image-22hmg
+  namespace: tay-test
+spec:
+  params:
+  - name: image
+    value: quay.io/tshen/quarkus-demo:latest
+  serviceAccountName: pipeline
+  taskRef:
+    name: docker-build
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: pipeline-pvc
