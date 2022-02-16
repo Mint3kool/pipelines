@@ -9,6 +9,7 @@ kind: Pipeline
 spec:
   workspaces:
   - name: ssh-creds
+  - name: quay-secret
   - name: shared-workspace
   params:
   - name: git-url
@@ -58,14 +59,22 @@ spec:
     - fetch-source
   - name: build-image
     taskRef:
-      name: docker-build
+      name: kaniko
     workspaces:
     - name: source
       workspace: shared-workspace
+    - name: dockerconfig
+      workspace: quay-secret
     params:
-    - name: image
+    - name: IMAGE
       value: $(params.image_registry)/$(params.image_name):$(params.image_version)
-#    - name: DOCKERFILE
-#      value: quarkus-demo/src/main/docker/Dockerfile.legacy-jar
     runAfter:
     - build-code
+  - name: apply-manifests
+    taskRef:
+      name: apply-manifests
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    runAfter:
+    - build-image
