@@ -18,11 +18,11 @@ spec:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      generateName: build-deploy-$(tt.params.git-repo-name)-
+      generateName: tay-pipeline-$(tt.params.git-repo-name)-
     spec:
       serviceAccountName: pipeline
       pipelineRef:
-        name: build-and-deploy
+        name: tay-pipeline
       params:
       - name: deployment-name
         value: $(tt.params.git-repo-name)
