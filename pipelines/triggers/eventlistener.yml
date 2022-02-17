@@ -1,0 +1,8 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: quarkus-demo-trigger
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - triggerRef: quarkus-demo-trigger
