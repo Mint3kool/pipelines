@@ -4,7 +4,6 @@ items:
   kind: Task
   metadata:
     name: update-dockerfile
-    namespace: tay-test
   spec:
     steps:
     - args:

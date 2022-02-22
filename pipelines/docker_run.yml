@@ -1,8 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  name: tay-pipeline-x4wgke-build-image-22hmg
-  namespace: tay-test
+  generateName: tay-pipeline-x4wgke-build-image-22hmg
 spec:
   params:
   - name: image

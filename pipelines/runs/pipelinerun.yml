@@ -3,9 +3,8 @@ kind: PipelineRun
 metadata:
   labels:
     resource: pipeline
-    tekton.dev/pipeline: tay-pipeline
-  generateName: tay-pipeline-
-  namespace: tay-test
+    tekton.dev/pipeline: test-pipelinerun
+  generateName: test-pipelinerun-
 spec:
   params:
   - name: git-url
@@ -15,7 +14,7 @@ spec:
   - name: IMAGE
     value: tay-image
   pipelineRef:
-    name: tay-pipeline
+    name: test-pipeline
   serviceAccountName: pipeline
   timeout: 1h0m0s
   workspaces:

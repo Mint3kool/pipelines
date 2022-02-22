@@ -1,8 +1,7 @@
 ---
 apiVersion: tekton.dev/v1beta1
 metadata:
-  name: tay-pipeline
-  namespace: tay-test
+  name: test-pipeline
   labels:
     resource: pipeline
 kind: Pipeline
