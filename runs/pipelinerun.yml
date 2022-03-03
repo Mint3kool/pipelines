@@ -14,13 +14,16 @@ spec:
   - name: IMAGE
     value: tay-image
   pipelineRef:
-    name: test-pipeline
+    name: test-pipeline-kaniko
   serviceAccountName: pipeline
   timeout: 1h0m0s
   workspaces:
   - name: ssh-creds
     secret:
       secretName: my-ssh-credentials
+  - name: quay-secret
+    secret:
+      secretName: tshen-quay-robot-secret
   - name: shared-workspace
     persistentVolumeClaim:
       claimName: pipeline-pvc
