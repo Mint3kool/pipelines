@@ -22,10 +22,18 @@ else
     oc new-project tay-test
 fi
 
+if [[ $* == *-k* ]]; then
+    oc apply -f pipelines/pipeline-kaniko.yml
+    oc apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/kaniko/0.5/kaniko.yaml
+else
+    oc apply -f pipelines/pipeline.yml
+fi
+
 echo "make sure openshift pipelines operator is installed"
 #oc apply -f operators/pipelines.yml
 oc apply -f storage
-oc apply -f secret
-oc apply -f pipelines
-oc apply -f pipelines/tasks
+oc apply -R -f secret/
+oc apply -R -f pipelines/tasks
+oc create -R -f pipelines/triggers
 
+oc secrets link pipeline tshen-quay-robot-secret --for=pull,mount
