@@ -18,7 +18,7 @@ spec:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      generateName: test-pipeline-$(tt.params.git-repo-name)-
+      generateName: git-trigger-$(tt.params.git-repo-name)-
     spec:
       serviceAccountName: pipeline
       pipelineRef:
